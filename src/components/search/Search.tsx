@@ -1,0 +1,5 @@
+import { useState } from 'react';
+import { Search as SearchIcon,ArrowUpRight } from 'lucide-react';
+import type { DiaryEntry } from '../../models/diary';
+import { dateLabel } from '../../utils/dates';
+export default function Search({entries,onSelect}:{entries:DiaryEntry[];onSelect:(date:string)=>void}) {const [query,setQuery]=useState('');const results=entries.filter(e=>`${e.title}\n${e.content}`.toLocaleLowerCase().includes(query.trim().toLocaleLowerCase())).sort((a,b)=>b.date.localeCompare(a.date));return <><label className="search-input"><SearchIcon size={19}/><input autoFocus aria-label="기록 검색" placeholder="어떤 순간을 찾고 있나요?" value={query} onChange={e=>setQuery(e.target.value)}/></label><p className="muted">{results.length}개의 기록</p><div className="search-results">{results.map(e=><button key={e.id} onClick={()=>onSelect(e.date)}><span className="eyebrow">{dateLabel(e.date)}</span><strong>{e.title||'제목 없는 하루'}</strong><p>{e.content.slice(0,110)}</p><ArrowUpRight size={18}/></button>)}{!results.length&&<div className="empty">아직 찾는 기록이 없어요.<br/>다른 단어로 찾아보세요.</div>}</div></>;}
