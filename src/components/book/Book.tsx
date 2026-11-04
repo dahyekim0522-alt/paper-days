@@ -1,4 +1,4 @@
-import { useEffect,useRef } from 'react';
+import { useLayoutEffect,useRef } from 'react';
 import { PageFlip } from 'page-flip';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { animationScope } from '../../utils/animationScope';
@@ -9,7 +9,7 @@ export interface BookHandle {next:()=>void;prev:()=>void}
 export default function Book({date,side,entries,photos,onTurn,controls}:{date:string;side:number;entries:DiaryEntry[];photos:Photo[];onTurn:(date:string,side:number)=>void;controls:React.RefObject<BookHandle|null>}) {
  const reduced=useReducedMotion();
  const host=useRef<HTMLDivElement>(null);const callback=useRef(onTurn);callback.current=onTurn;
- useEffect(()=>{
+ useLayoutEffect(()=>{
   const container=host.current!;const target=document.createElement('div');target.className='flip-target';container.appendChild(target);
   const urls:string[]=[];const pages=pageWindow(date).map(({date:pageDate,side:pageSide},index)=>{
    const entry=entries.find(e=>e.date===pageDate);const d=parseDate(pageDate);const page=document.createElement('div');page.className=`paper-page ${pageSide==='text'?'verso':'recto'}`;page.dataset.date=pageDate;

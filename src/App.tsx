@@ -9,6 +9,7 @@ import Calendar from './components/calendar/Calendar';
 import Search from './components/search/Search';
 import Settings from './components/settings/Settings';
 import Modal from './components/common/Modal';
+import PWAStatus from './components/pwa/PWAStatus';
 
 type Panel='calendar'|'search'|'settings'|null;
 export default function App(){
@@ -37,6 +38,7 @@ export default function App(){
    <header className="topbar"><button className="icon-button mobile-menu" aria-label="메뉴 열기" onClick={()=>setMobileNav(true)}><Menu/></button><div className="breadcrumb">나의 다이어리 <span>/</span> <strong>{selected.slice(0,4)}</strong></div><div className="topbar-right"><span><span className="status-dot"/> 나만 볼 수 있는 작은 공간</span><button className="avatar" aria-label="설정 열기" onClick={()=>setPanel('settings')}>나</button></div></header>
    <div className="workspace">
     <div className="workspace-heading"><div><div className="eyebrow">A LITTLE RECORD OF MY DAYS</div><h1>나의 하루를 담는 책<span>.</span></h1><p>지나가는 순간을 붙잡아, 오래 꺼내 볼 수 있도록.</p></div><button className="button primary write-today" disabled={loading||!!error} onClick={()=>{select(dateKey());void edit(dateKey());}}><PenLine size={17}/>오늘 기록하기</button></div>
+    <PWAStatus editing={!!draft}/>
     {error&&<div className="error" role="alert">{error}<button onClick={()=>void refresh()}>다시 시도</button></div>}
     {loading?<div className="loading" role="status">다이어리를 꺼내고 있어요…</div>:<>
      <div className="book-toolbar"><span><span className="tiny-square"/>{opened?dateLabel(selected):`${selected.slice(0,4)}년, 당신의 이야기가 시작되는 곳`}</span><span className="toolbar-count">{entries.length}일의 기록 <span>·</span> {selected.slice(0,4)}</span></div>
